@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Food Finder",
+  "version": "1.0",
+  "description": "Find food images and fetch recipes",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module" 
+  },
+  "action": {
+    "default_icon": "icons/icons8-cooking-book-48.png"
+  },
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["overlay.html", "overlay.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

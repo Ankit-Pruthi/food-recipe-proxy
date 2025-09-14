@@ -1,0 +1,24 @@
+# Node modules
+**/node_modules/
+
+# SAM build artifacts
+**/.aws-sam/
+
+# Local environment files
+lambda/env.json
+chrome-extension/config.js
+lambda/event-hf.json
+lambda/event-sp.json
+
+# OS & IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Chrome extension local builds
+chrome-extension/dist/
+
+# Zip & build outputs
+*.zip
+dist/
+build/

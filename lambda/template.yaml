@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: food-recipe-proxy
+
+Resources:
+  ProxyApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: FoodProxyApi
+      StageName: Prod
+      Auth:
+        ApiKeyRequired: true
+
+  TestLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: food-recipe-proxy-local
+      Handler: index.lambdaHandler
+      Runtime: nodejs22.x
+      CodeUri: .
+      Timeout: 30   # Increase timeout (max 900 for Lambda)
+      MemorySize: 512
+      Environment:
+        Variables:
+          HUGGING_FACE_API_KEY: !Ref HuggingFaceApiKey
+          SPOONACULAR_API_KEY: !Ref SpoonacularApiKey 
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /hfproxy
+            Method: post
+            RestApiId: !Ref ProxyApi   # use the defined API
+            Auth:
+              ApiKeyRequired: true
+
+Parameters:
+  HuggingFaceApiKey:
+    Type: String
+    NoEcho: true       # prevents showing in CloudFormation console
+  SpoonacularApiKey:
+    Type: String
+    NoEcho: true
+    
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ProxyApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hfproxy"
