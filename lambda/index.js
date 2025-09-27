@@ -3,7 +3,7 @@ exports.lambdaHandler = async (event) => {
   try {
 
     // ✅ Validate Origin header
-    const allowedOrigin = `chrome-extension://ineelmnbgjjjocediobbalfmfknekneo`; // replace with your ID
+    const allowedOrigin = `chrome-extension://hliophejbmloalemlckeaomfhncmddme`; // replace with your ID
     const origin = event.headers?.origin || event.headers?.Origin;
 
     if (origin !== allowedOrigin) {

@@ -11,10 +11,7 @@
   "action": {
     "default_icon": "icons/icons8-plate-1.png"
   },
-  "host_permissions": [
-    "http://*/*",
-    "https://*/*"
-  ],
+  "host_permissions": [],
   "web_accessible_resources": [
     {
       "resources": ["overlay.html", "overlay.css"],
