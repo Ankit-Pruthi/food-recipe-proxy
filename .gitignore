@@ -6,7 +6,7 @@
 
 # Local environment files
 lambda/env.json
-chrome-extension/config.js
+food-recipe-chrome-extension/config.js
 lambda/event-hf.json
 lambda/event-sp.json
 
@@ -16,7 +16,7 @@ Thumbs.db
 .vscode/
 
 # Chrome extension local builds
-chrome-extension/dist/
+food-recipe-chrome-extension/dist/
 
 # Zip & build outputs
 *.zip

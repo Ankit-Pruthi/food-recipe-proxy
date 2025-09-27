@@ -1,15 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "Food Finder",
+  "name": "Plateful AI",
   "version": "1.0",
-  "description": "Find food images and fetch recipes",
+  "description": "Full of recipes at your click",
   "permissions": ["storage", "activeTab", "scripting"],
   "background": {
     "service_worker": "background.js",
     "type": "module" 
   },
   "action": {
-    "default_icon": "icons/icons8-cooking-book-48.png"
+    "default_icon": "icons/icons8-plate-1.png"
   },
   "host_permissions": [
     "http://*/*",
