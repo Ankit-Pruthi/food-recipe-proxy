@@ -67,8 +67,7 @@ async function callLambdaApi(payload) {
     const response = await fetch(CONFIG.LAMBDA_API_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "x-api-key": CONFIG.LAMBDA_API_KEY,  // API Gateway authentication
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(payload),
     });

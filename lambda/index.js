@@ -3,47 +3,71 @@ exports.lambdaHandler = async (event) => {
   try {
 
     // ✅ Validate Origin header
-    const allowedOrigin = `chrome-extension://hliophejbmloalemlckeaomfhncmddme`; // replace with your ID
+    const allowedOrigins = [`chrome-extension://hliophejbmloalemlckeaomfhncmddme`, 
+      `chrome-extension://ikdhcglmdfdajhmmeaaabbjkdhhcmiaj`]; // replace with your ID
     const origin = event.headers?.origin || event.headers?.Origin;
+    const allowOrigin = allowedOrigins.includes(origin) ? origin : '';
 
-    if (origin !== allowedOrigin) {
+    const corsHeaders_PreFlight = {
+        'Access-Control-Allow-Origin': allowOrigin,
+        'Access-Control-Allow-Methods': 'OPTIONS,POST',
+        'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+        'Access-Control-Max-Age': '3600'
+      };
+
+    // Handle preflight
+    if (event.httpMethod === 'OPTIONS') {
+      return {
+        statusCode: 200,
+        headers: corsHeaders_PreFlight
+      };
+    }
+
+    if (!origin || !allowedOrigins.includes(origin)) {
       return {
         statusCode: 403,
         body: JSON.stringify({ error: "Forbidden: Invalid Origin" }),
       };
     }
+
+    const corsHeaders_Post = {
+        'Access-Control-Allow-Origin': allowOrigin,
+        'Access-Control-Allow-Methods': 'OPTIONS,POST',
+        'Access-Control-Allow-Headers': 'Content-Type,Authorization'
+      };
+
     let payload;
 
     try {
       payload = event.body ? JSON.parse(event.body) : event;
     } catch (err) {
-      return { statusCode: 400, body: JSON.stringify({ error: "Invalid JSON" }) };
+      return { statusCode: 400, headers: corsHeaders_Post, body: JSON.stringify({ error: "Invalid JSON" }) };
     }
 
     const provider = payload.provider?.toLowerCase();
     if (!provider) {
-      return { statusCode: 400, body: JSON.stringify({ error: "Missing provider" }) };
+      return { statusCode: 400, headers: corsHeaders_Post, body: JSON.stringify({ error: "Missing provider" }) };
     }
 
     try {
       if (provider === "huggingface") {
         const result = await callHuggingFace(payload.inputs);
-        return { statusCode: 200, body: JSON.stringify(result) };
+        return { statusCode: 200, headers: corsHeaders_Post, body: JSON.stringify(result) };
 
       } else if (provider === "spoonacular") {
         const result = await callSpoonacular(payload.query);
-        return { statusCode: 200, body: JSON.stringify(result) };
+        return { statusCode: 200, headers: corsHeaders_Post, body: JSON.stringify(result) };
 
       } else {
-        return { statusCode: 400, body: JSON.stringify({ error: "Unknown provider" }) };
+        return { statusCode: 400, headers: corsHeaders_Post, body: JSON.stringify({ error: "Unknown provider" }) };
       }
     } catch (err) {
       console.error("Lambda Error:", err);
-      return { statusCode: 500, body: JSON.stringify({ error: "Internal server error", details: err.message }) };
+      return { statusCode: 500, headers: corsHeaders_Post, body: JSON.stringify({ error: "Internal server error", details: err.message }) };
     }
   } catch (err) {
       console.error("Lambda Error:", err);
-      return { statusCode: 403, body: JSON.stringify({ error: "Not Authorized", details: "Not Authorized" }) };
+      return { statusCode: 403, headers: corsHeaders_Post, body: JSON.stringify({ error: "Not Authorized", details: "Not Authorized" }) };
   }
 };
 

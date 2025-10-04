@@ -3,7 +3,7 @@
   "name": "Plateful AI",
   "version": "1.0",
   "description": "Full of recipes at your click",
-  "permissions": ["storage", "activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting"],
   "background": {
     "service_worker": "background.js",
     "type": "module" 
