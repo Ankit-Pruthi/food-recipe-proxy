@@ -24,6 +24,8 @@ Resources:
         Variables:
           HUGGING_FACE_API_KEY: !Ref HuggingFaceApiKey
           SPOONACULAR_API_KEY: !Ref SpoonacularApiKey
+          CHROME_EXTN_ID_PROD: !Ref ChromeExtnIdProd
+          CHROME_EXTN_ID_LOCAL: !Ref ChromeExtnIdLocal
       Events:
         ApiPostEvent:
           Type: Api
@@ -43,6 +45,12 @@ Parameters:
     Type: String
     NoEcho: true
   SpoonacularApiKey:
+    Type: String
+    NoEcho: true
+  ChromeExtnIdProd:
+    Type: String
+    NoEcho: true
+  ChromeExtnIdLocal:
     Type: String
     NoEcho: true
 

@@ -3,8 +3,10 @@ exports.lambdaHandler = async (event) => {
   try {
 
     // ✅ Validate Origin header
-    const allowedOrigins = [`chrome-extension://hliophejbmloalemlckeaomfhncmddme`, 
-      `chrome-extension://ikdhcglmdfdajhmmeaaabbjkdhhcmiaj`]; // replace with your ID
+    const chromeExtId_Prod = process.env.CHROME_EXTN_ID_PROD;
+    const chromeExtId_Local = process.env.CHROME_EXTN_ID_LOCAL;
+
+    const allowedOrigins = [`chrome-extension://${chromeExtId_Prod}`, `chrome-extension://${chromeExtId_Local}`];
     const origin = event.headers?.origin || event.headers?.Origin;
     const allowOrigin = allowedOrigins.includes(origin) ? origin : '';
 
